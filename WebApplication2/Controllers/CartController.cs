@@ -27,6 +27,8 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public string CheckOut(ICard card, IAddressInfo addressInfo)
         {
+            //added dummy comment
+            //dunmmy data
             var result = _paymentService.Charge(_cartService.Total(), card);
             if (result)
             {
