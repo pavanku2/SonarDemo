@@ -45,8 +45,7 @@ jobs:
     - name: Build  and run unit tests
       run: |
        cd src
-          dotnet build WebApplication2.csproj --restore
-          dotnet build Test.csproj --restore
+          dotnet build --restore       
           dotnet test --no-build --no-restore --verbosity normal -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
          
     - name: End Sonar scan
