@@ -27,6 +27,9 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
           
+      - name: Restore NuGet packages
+        run: nuget restore src\Demo.sln
+          
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
         with:
