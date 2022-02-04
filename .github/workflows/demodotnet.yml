@@ -39,7 +39,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           
-      run: dotnet sonarscanner begin -k:pavanku2_SonarDemo -d:sonar.host.url="https://sonarcloud.io" -o:pavanku2 -d:sonar.login=${{secrets.SONAR_KEY}} -d:sonar.branch.name=${GITHUB_REF##*/} -v:${GITHUB_RUN_NUMBER} -d:sonar.cs.opencover.reportsPaths=./testresults/*/coverage.opencover.xml 
+      run: dotnet sonarscanner begin -k:pavanku2_SonarDemo -d:sonar.host.url="https://sonarcloud.io" -o:pavanku2 -d:sonar.login=${{secrets.SONAR_KEY}} -d:sonar.cs.opencover.reportsPaths=./testresults/*/coverage.opencover.xml 
     - name: Install dependencies
       run: dotnet restore
     - name: Build
