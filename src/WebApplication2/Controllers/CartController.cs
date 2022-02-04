@@ -6,7 +6,7 @@ using static WebApplication2.Services.Models;
 namespace WebApplication2.Controllers
 {
     [Route("api/[controller]")]
-//    [ApiController]
+//    [ApiController] 1
     public class CartController : ControllerBase
     {
         private readonly ICartService _cartService;
