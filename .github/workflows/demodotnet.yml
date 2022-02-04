@@ -35,8 +35,7 @@ jobs:
       if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
       run: dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
         
-    - name: Restore  packages
-      run:  nuget restore src\Demo.sln 
+   
       
     - name: Begin Sonar scan
       run: |
@@ -46,8 +45,8 @@ jobs:
     - name: Build  and run unit tests
       run: |
        cd src
-          dotnet build WebApplication2.csproj --no-restore
-          dotnet build Test.csproj --no-restore
+          dotnet build WebApplication2.csproj --restore
+          dotnet build Test.csproj --restore
           dotnet test --no-build --no-restore --verbosity normal -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
          
     - name: End Sonar scan
