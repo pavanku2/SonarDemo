@@ -39,16 +39,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           
-      run: dotnet sonarscanner begin -k:pavanku2_SonarDemo -d:sonar.host.url="https://sonarcloud.io" -o:pavanku2 -d:sonar.login=${{secrets.SONAR_KEY}} -d:sonar.cs.opencover.reportsPaths=./testresults/*/coverage.opencover.xml 
-    - name: Install dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage" -r ./testresults -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
-    - name: End SonarCloud analysis
-      run: dotnet sonarscanner end -d:sonar.login=${{secrets.SONAR_KEY}}
-      env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-    
-    
+      run: |
+          ./.sonar/scanner/dotnet-sonarscanner begin /k:"pavanku2_SonarDemo" /o:"pavanku2" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet build --configuration Release --no-restore
+          ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
+     
