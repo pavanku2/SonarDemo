@@ -23,7 +23,7 @@ namespace Test
         
         public  Tests()
         {
-            //dummy comment
+            //dummy comment 1
             cartServiceMock = new Mock<ICartService>();
             paymentServiceMock = new Mock<IPaymentService>();
             shipmentServiceMock = new Mock<IShipmentService>();
