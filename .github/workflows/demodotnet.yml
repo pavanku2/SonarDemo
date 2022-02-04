@@ -37,7 +37,7 @@ jobs:
         
     - name: Restore NuGet packages
       run:  | 
-              nuget restore Demo.sln
+              nuget restore src\Demo.sln
               dotnet restore 
       
     - name: Begin Sonar scan
@@ -47,8 +47,8 @@ jobs:
     
     - name: Build  and run unit tests
       run: |
-          dotnet build --no-restore
-          dotnet build --no-restore
+          dotnet build src\WebApplication2\WebApplication2.csproj --no-restore
+          dotnet build src\Test\Test.csproj --no-restore
           dotnet test --no-build --no-restore --verbosity normal -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
          
     - name: End Sonar scan
