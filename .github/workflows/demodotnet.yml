@@ -35,10 +35,8 @@ jobs:
       if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
       run: dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
         
-    - name: Restore NuGet packages
-      run:  | 
-              nuget restore src\Demo.sln
-              dotnet restore 
+    - name: Restore  packages
+      run:  dotnet restore 
       
     - name: Begin Sonar scan
       run: |
