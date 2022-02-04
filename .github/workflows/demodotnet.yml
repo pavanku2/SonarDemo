@@ -14,8 +14,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
           dotnet-version: 6.0.x
-    - name: Install dependencies
-      run: dotnet restore   
+  
     - uses: actions/checkout@v2
       with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
@@ -36,14 +35,19 @@ jobs:
       if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
       run: dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
         
-    - name: Test and analyze
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          
+    - name: Begin Sonar scan
       run: |
-          ./.sonar/scanner/dotnet-sonarscanner begin /k:"pavanku2_SonarDemo" /o:"pavanku2" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build -c Release --no-restore
-          ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-
-     
+          dotnet tool install --global dotnet-sonarscanner
+          dotnet sonarscanner begin /o:pavanku2 /k:pavanku2_SonarDemo /d:sonar.login=${{ secrets.SONAR_TOKEN }} /d:sonar.host.url=https://sonarcloud.io
+    
+    - name: Build  and run unit tests
+      run: |
+          dotnet build WebApplication2\WebApplication2.csproj --no-restore
+          dotnet build Test\Test.csproj --no-restore
+          dotnet test Test\Test.csproj --no-build --no-restore --verbosity normal -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+         
+    - name: End Sonar scan
+      run: dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
+    env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
